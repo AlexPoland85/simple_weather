@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simple_weather/app/core/enums.dart';
+import 'package:simple_weather/data/remote_data_sources/weather_remote_data_source.dart';
 import 'package:simple_weather/domain/models/weather_model.dart';
 import 'package:simple_weather/domain/repositories/weather_repository.dart';
 import 'package:simple_weather/features/home/cubit/home_cubit.dart';
@@ -14,7 +15,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeCubit(
-        WeatherRepository(),
+        WeatherRepository(WeatherRemoteDataSource()),
       ),
       child: BlocListener<HomeCubit, HomeState>(
         listener: (context, state) {
@@ -38,7 +39,7 @@ class HomePage extends StatelessWidget {
               body: Center(
                 child: Builder(builder: (context) {
                   if (state.status == Status.loading) {
-                    return const Text('Loading');
+                    return const CircularProgressIndicator();
                   }
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -78,12 +79,17 @@ class _DisplayWeatherWidget extends StatelessWidget {
               weatherModel.temperature.toString(),
               style: Theme.of(context).textTheme.displayLarge,
             ),
-            const SizedBox(height: 60),
+            const SizedBox(height: 30),
             Text(
               weatherModel.city,
               style: Theme.of(context).textTheme.displayMedium,
             ),
-            const SizedBox(height: 60),
+            const SizedBox(height: 30),
+            Text(
+              weatherModel.country,
+              style: Theme.of(context).textTheme.displayMedium,
+            ),
+            const SizedBox(height: 30),
           ],
         );
       },

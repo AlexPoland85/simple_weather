@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Weather App',
       theme: ThemeData(
+        useMaterial3: false,
         primarySwatch: Colors.orange,
       ),
       home: const HomePage(),

@@ -15,7 +15,8 @@ class HomeCubit extends Cubit<HomeState> {
   }) async {
     emit(const HomeState(status: Status.loading));
     try {
-      final weatherModel = await _weatherRepository.getWeatherModel(city: city);
+      final weatherModel = await _weatherRepository.getWeatherModel(
+          city: city, country: 'India');
       emit(
         HomeState(
           model: weatherModel,
